@@ -1,9 +1,8 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-
-engine = create_engine('sqlite:///main.db', echo=True)
-engine1 = create_engine('sqlite:///text.db', echo=True)
+engine = create_engine('sqlite:///main.db', echo=False)
+engine1 = create_engine('sqlite:///text.db', echo=False)
 
 Base = declarative_base()
 Base1 = declarative_base()
@@ -54,6 +53,13 @@ def create_user(name=str, link_to_git=str, input_other_id=int):
     session.commit()
 
 
-def return_user():
-    for user in users:
-        print(user.id, user.name, user.link_to_git, user.other_id)
+def return_user(user_id):
+    i = 0
+    for n in users:
+        i += 1
+    if i >= user_id:
+        user_to_return = session.query(User).filter(User.id == user_id).first()
+        return user_to_return
+    else:
+        return "Out of range"
+

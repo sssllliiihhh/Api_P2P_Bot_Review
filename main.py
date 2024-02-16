@@ -1,6 +1,6 @@
 import requests
 
-url = "http://localhost:8000/users"
+url = "http://localhost:8000/users/"
 
 data = {
   "name": "slih",
