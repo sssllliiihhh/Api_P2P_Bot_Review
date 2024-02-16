@@ -33,16 +33,5 @@ def register_message(id: int):
     return return_user(id)
 
 
-# @app.get("/users/{name}")
-# def get_user(name: str):
-#     with open("user.json") as js_file:
-#         users = json.load(js_file)
-#
-#     if name in users:
-#         return User(name=str(name))
-#     else:
-#         return "User not found"
-
-
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
