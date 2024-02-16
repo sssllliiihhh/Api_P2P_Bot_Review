@@ -5,7 +5,7 @@ url = "http://localhost:8000/users"
 data = {
   "name": "slih",
   "link_to_git": "https://github.com/sssllliiihhh/",
-  "other_id": 90213445
+  "other_id": 902134453
 }
 response = requests.post(url, json=data)
 
