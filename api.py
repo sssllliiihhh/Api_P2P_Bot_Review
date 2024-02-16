@@ -2,21 +2,21 @@ from pydantic import BaseModel
 import uvicorn
 from fastapi import FastAPI
 
-from database import create_user, users, check
+from database import create_user, check
 
 app = FastAPI()
 
 
 class MyData(BaseModel):
     name: str
-    age: int
     other_id: int
+    link_to_git: str
 
 
 @app.post("/users")
 def register(data: MyData):
     if check(data.other_id):
-        create_user(data.name, data.age, data.other_id)
+        create_user(data.name, data.link_to_git, data.other_id)
         return "successfully registered"
     else:
         return "user already exists"
