@@ -1,3 +1,5 @@
+# -----------------------------------------------------------------------------
+# Создание бд
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import declarative_base, sessionmaker
 
@@ -8,6 +10,8 @@ Base = declarative_base()
 Base1 = declarative_base()
 
 
+# -----------------------------------------------------------------------------
+# main.db
 class User(Base):
     __tablename__ = 'users'
 
@@ -17,6 +21,7 @@ class User(Base):
     link_to_git = Column(String(100))
 
 
+# text.db
 class UserMessage(Base1):
     __tablename__ = 'message'
 
@@ -24,6 +29,9 @@ class UserMessage(Base1):
     text = Column(String(4096))
     link_to_git = Column(String(100))
 
+
+# -----------------------------------------------------------------------------
+# Инициализация бд
 
 Base.metadata.create_all(engine)
 Base1.metadata.create_all(engine1)
@@ -33,6 +41,10 @@ session1 = Session1()
 
 Session = sessionmaker(bind=engine)
 session = Session()
+
+
+# -----------------------------------------------------------------------------
+# Функции
 
 def start_session(db):
     if db == "users":
@@ -58,7 +70,7 @@ def create_user(name=str, link_to_git=str, input_other_id=int):
 
 
 def return_user(user_id):
-    users = session.query(User).all()
+    users = start_session("users")
     i = 0
     for n in users:
         i += 1

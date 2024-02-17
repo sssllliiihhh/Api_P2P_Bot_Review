@@ -22,7 +22,7 @@ def register(data: UserData):
         return "user already exists"
 
 
-@app.get("/users/{id}")
+@app.post("/users/{id}")
 def register_message(id: int):
     return return_user(id)
 

@@ -1,6 +1,6 @@
 import requests
 
-url = "https://csgoyz.run/crash"
+url = "http://localhost:8000/users/"
 
 data = {
   "name": "slih",
