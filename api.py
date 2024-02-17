@@ -13,12 +13,6 @@ class UserData(BaseModel):
     link_to_git: str
 
 
-class MessageData(BaseModel):
-    name: str
-    other_id: int
-    link_to_git: str
-
-
 @app.post("/users")
 def register(data: UserData):
     if check(data.other_id):

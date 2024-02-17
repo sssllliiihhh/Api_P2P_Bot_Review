@@ -34,16 +34,20 @@ session1 = Session1()
 Session = sessionmaker(bind=engine)
 session = Session()
 
-users = session.query(User).all()
-users_message = session1.query(UserMessage).all()
+def start_session(db):
+    if db == "users":
+        users = session.query(User).all()
+        return users
+    elif db == "users_message":
+        users_message = session1.query(UserMessage).all()
+        return users_message
 
 
 def check(other_id):
+    users = start_session("users")
     for user in users:
-        print(user.other_id, other_id)
         if user.other_id == other_id:
             return False
-            break
     return True
 
 
@@ -54,6 +58,7 @@ def create_user(name=str, link_to_git=str, input_other_id=int):
 
 
 def return_user(user_id):
+    users = session.query(User).all()
     i = 0
     for n in users:
         i += 1
@@ -62,4 +67,3 @@ def return_user(user_id):
         return user_to_return
     else:
         return "Out of range"
-
