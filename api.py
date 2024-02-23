@@ -12,9 +12,11 @@ class UserData(BaseModel):
     other_id: int
     link_to_git: str
 
+
 class UserMassage(BaseModel):
     text: str
     link_to_git: str
+
 
 @app.post("/users")
 def register(data: UserData):
@@ -30,6 +32,7 @@ def text(text: UserMassage):
     if check_link(text.link_to_git):
         return "123"
         # записываешь в бд
+
 
 @app.post("/users/{id}")
 def register_message(id: int):
