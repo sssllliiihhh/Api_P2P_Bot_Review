@@ -32,20 +32,20 @@ class UserMessage(Base1):
 
 # -----------------------------------------------------------------------------
 # Инициализация бд
-
 Base.metadata.create_all(engine)
 Base1.metadata.create_all(engine1)
 
-Session1 = sessionmaker(bind=engine1)
-session1 = Session1()
-
+# main.db
 Session = sessionmaker(bind=engine)
 session = Session()
+# text.db
+Session1 = sessionmaker(bind=engine1)
+session1 = Session1()
 
 
 # -----------------------------------------------------------------------------
 # Функции
-
+# Запуск сессии для извлечения данных из базы
 def start_session(db):
     if db == "users":
         users = session.query(User).all()
@@ -54,7 +54,7 @@ def start_session(db):
         users_message = session1.query(UserMessage).all()
         return users_message
 
-
+# Проверка есть ли строка с таким-же other_id в базе
 def check(other_id):
     users = start_session("users")
     for user in users:
@@ -62,13 +62,13 @@ def check(other_id):
             return False
     return True
 
-
-def create_user(name=str, link_to_git=str, input_other_id=int):
+# Запись данных в main.db
+def create_user(name: str, link_to_git=str, input_other_id=int):
     new_user = User(name=name, link_to_git=link_to_git, other_id=input_other_id)
     session.add(new_user)
     session.commit()
 
-
+# Возвращение строки из main.db
 def return_user(user_id):
     users = start_session("users")
     i = 0
@@ -79,3 +79,10 @@ def return_user(user_id):
         return user_to_return
     else:
         return "Out of range"
+
+# Проверка ссылки на гит
+def check_link(link):
+    if link.endswith('.git'):
+        return True
+    else:
+        return "Not git link"
