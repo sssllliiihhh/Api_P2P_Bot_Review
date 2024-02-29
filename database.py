@@ -86,9 +86,24 @@ def return_user(user_id):
     else:
         return "Out of range"
 
+
 # Проверка ссылки на гит
 def check_link(link):
     if link.endswith('.git'):
         return True
     else:
         return "Not git link"
+
+
+def return_text(user_id):
+    users = start_session()
+    text_to_return = session.query(Queue).filter(User.id == user_id).first()
+    return text_to_return
+
+
+def create_text(text1: str, text2: str, other_id1: int, other_id2: int):
+    new_text = Queue(text1=text1, other_id1=other_id1, text2=text2, other_id2=other_id2)
+    session.add(new_text)
+    session.commit()
+
+# create_text(text1=hui1, text2=hui2, other_id1=hui1, other_id2=hui2)

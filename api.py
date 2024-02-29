@@ -39,5 +39,10 @@ def register_message(id: int):
     return return_user(id)
 
 
+@app.post("/users/text/{id}")
+def returned_text(id: int):
+    return return_text(id)
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
