@@ -1,7 +1,7 @@
 # -----------------------------------------------------------------------------
 # Создание бд
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 
 engine = create_engine('sqlite:///main.db', echo=False)
 
@@ -20,13 +20,14 @@ class User(Base):
 
 
 # text.db
-class UserMessage(Base):
-    __tablename__ = 'message'
+class Projects(Base):
+    __tablename__ = 'projects'
 
     id = Column(Integer, primary_key=True)
     text = Column(String(4096))
     link_to_git = Column(String(100))
     other_id = Column(Integer)
+    qwe = relationship("Queue")
 
 
 class Queue(Base):
@@ -34,10 +35,8 @@ class Queue(Base):
 
     id = Column(Integer, primary_key=True)
 #   номер ячейки ожидания
-    text1 = Column(String(4096))
-    text2 = Column(String(4096))
-    other_id1 = Column(Integer)
-    other_id2 = Column(Integer)
+    user1 = Column(ForeignKey('projects.id'), primary_key=True)
+    user2 = Column(ForeignKey('projects.id'), primary_key=True)
 
 
 # -----------------------------------------------------------------------------
@@ -93,17 +92,14 @@ def check_link(link):
         return True
     else:
         return "Not git link"
-
-
-def return_text(user_id):
-    users = start_session()
-    text_to_return = session.query(Queue).filter(User.id == user_id).first()
-    return text_to_return
-
-
-def create_text(text1: str, text2: str, other_id1: int, other_id2: int):
-    new_text = Queue(text1=text1, other_id1=other_id1, text2=text2, other_id2=other_id2)
-    session.add(new_text)
-    session.commit()
-
-# create_text(text1=hui1, text2=hui2, other_id1=hui1, other_id2=hui2)
+#
+#
+#     users = start_session()
+#     text_to_return = session.query(Queue).filter(User.id == user_id).first()
+#     return text_to_return
+#
+#
+# # def create_text(user1: str, user2: str):
+# #     new_text = Queue(text1=text1, other_id1=other_id1)
+# #     session.add(new_text)
+# #     session.commit()
