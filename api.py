@@ -2,7 +2,7 @@ from pydantic import BaseModel
 import uvicorn
 from fastapi import FastAPI
 
-from database import create_user, check, return_user, check_link
+from func import apifunc
 
 app = FastAPI()
 
@@ -16,32 +16,23 @@ class UserData(BaseModel):
 class UserMassage(BaseModel):
     text: str
     link_to_git: str
+    other_id: int
 
 
+# Миша
 @app.post("/users")
 def register(data: UserData):
-    if check(data.other_id):
-        create_user(data.name, data.link_to_git, data.other_id)
-        return "successfully registered"
-    else:
-        return "user already exists"
+    return apifunc.register_user(data)
 
-
+# Даша
 @app.post("/text")
 def text(text: UserMassage):
-    if check_link(text.link_to_git):
-        return "123"
-        # записываешь в бд
+    return apifunc.register_text(text)
 
-
-@app.post("/users/{id}")
-def register_message(id: int):
-    return return_user(id)
-
-
-@app.post("/users/text/{id}")
-def returned_text(id: int):
-    return return_text(id)
+# Марк
+@app.get("/queue/{id}")
+def queue(id):
+    return apifunc.return_queue(id)
 
 
 if __name__ == "__main__":
