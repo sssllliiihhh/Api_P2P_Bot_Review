@@ -6,9 +6,7 @@ from table import table
 engine = create_engine('sqlite:///db/1.db', echo=False)
 Base = declarative_base()
 
-User = table.User
-Queue = table.Queue
-Projects = table.Projects
+Variables = table.Variables
 Base = table.Base
 
 
@@ -18,5 +16,9 @@ Session = sessionmaker(
     engine,
     expire_on_commit=False,
 )
-session = Session()
-
+# try:
+#     n = session.query(Variables).filter(Variables.i).first().i
+# except:
+#     i = Variables(i = 1)
+#     session.add(i)
+#     session.commit()

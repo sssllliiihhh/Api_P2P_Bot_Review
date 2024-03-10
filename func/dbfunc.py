@@ -5,6 +5,7 @@ from table import table
 User = table.User
 Queue = table.Queue
 Projects = table.Projects
+Variables = table.Variables
 
 
 def check(other_id):
@@ -29,6 +30,7 @@ def create_text(text: str, link_to_git: str, other_id: int):
                        user_id=session.query(User).filter(User.other_id == other_id).first().id)
     session.add(message)
     session.commit()
+    new_queue()
 
 
 def return_user(user_id):
@@ -48,7 +50,7 @@ def check_link(link):
     if link.endswith('.git'):
         return True
     else:
-        return "Not git link"
+        return False
 
 
 def return_text(user_id):
@@ -60,12 +62,10 @@ def return_text(user_id):
 
 def new_queue():
     session = database.Session()
-    users = session.query(Queue).all()
-    i = 0
-    for n in users:
-        i += 1
-    new_user = Queue(user1=i+2, user2=i+3)
+    n = session.query(Variables).filter(Variables.i).first().i
+    new_user = Queue(user1=n, user2=n+1)
     session.add(new_user)
+    session.delete(Variables.id)
     session.commit()
 
 
@@ -73,14 +73,15 @@ def return_queue(id):
     session = database.Session()
     try:
         user1 = session.query(Projects).filter(Projects.id == Queue.user1).filter(Queue.id == id).first().text
+        id1 = session.query(Projects).filter(Projects.id == Queue.user1).filter(Queue.id == id).first().other_id
         user2 = session.query(Projects).filter(Projects.id == Queue.user2).filter(Queue.id == id).first().text
+        id2 = session.query(Projects).filter(Projects.id == Queue.user2).filter(Queue.id == id).first().other_id
     except:
-        return "Out of range"
-    print(type(user1), user2)
+        return " Out of range "
     if user1 and user2 is not None:
-        return user1, user2
+        return f" {user1} {id1} {user2} {id2} "
     else:
         if user1 is None and user2 is None:
-            return "No review"
+            return " No review "
         else:
-            return "Waiting for the last review"
+            return " Waiting for the last review "

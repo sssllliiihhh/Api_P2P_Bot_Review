@@ -18,7 +18,7 @@ class Projects(Base):
     id = Column(Integer, primary_key=True)
     text = Column(String(4096))
     link_to_git = Column(String(100))
-    other_id =  Column(Integer())#Column(ForeignKey("users.other_id"))
+    other_id =  Column(Integer())
     user_id = Column(ForeignKey("users.id"))
 
 
@@ -29,3 +29,10 @@ class Queue(Base):
 #   номер ячейки ожидания
     user1 = Column(ForeignKey('projects.id'), unique=True)
     user2 = Column(ForeignKey('projects.id'), unique=True)
+
+
+class Variables(Base):
+    __tablename__ = 'variables'
+
+    id = Column(Integer, primary_key=True)
+    i = Column(Integer())
