@@ -14,7 +14,7 @@ if response.status_code == 200:
 else:
     print("Ошибка при отправке запроса на регистрацию пользователя.")
 string = response.text
-print(string)
+# print(string)
 words = string.split()
 text1 = words[1]  # извлекаем слово по индексу
 if text1 == "Out":
@@ -24,6 +24,9 @@ if text1 == "No":
 id1 = words[2]
 text2 = words[3]
 id2 = words[4]
-print(id1, id2, text1, text2)
+# print(id1, id2, text1, text2)
 
-
+def return_id1():
+    return id1
+def return_id2():
+    return id2

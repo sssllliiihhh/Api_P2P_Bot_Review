@@ -1,3 +1,4 @@
+from sqlalchemy import update
 import database
 from table import table
 
@@ -62,11 +63,19 @@ def return_text(user_id):
 
 def new_queue():
     session = database.Session()
-    n = session.query(Variables).filter(Variables.i).first().i
-    new_user = Queue(user1=n, user2=n+1)
-    session.add(new_user)
-    session.delete(Variables.id)
-    session.commit()
+    try:
+        n = session.query(Variables).filter(Variables.i).first().i
+        new_user = Queue(user1=n, user2=n+1)
+        session.add(new_user)
+        session.execute(
+            update(Variables).
+            where(Variables.i == n).
+            values(i=n+2)
+        )
+        session.commit()
+        return " Successfully added "
+    except Exception as e:
+        return e
 
 
 def return_queue(id):
@@ -79,7 +88,7 @@ def return_queue(id):
     except:
         return " Out of range "
     if user1 and user2 is not None:
-        return f" {user1} {id1} {user2} {id2} "
+        return f" {user1} {id1} {user2} {id2}"
     else:
         if user1 is None and user2 is None:
             return " No review "

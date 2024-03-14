@@ -34,6 +34,10 @@ def text(text: UserMassage):
 def queue(id):
     return apifunc.return_queue(id)
 
+@app.get("/qwe")
+def qwe():
+    return apifunc.new_queue()
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

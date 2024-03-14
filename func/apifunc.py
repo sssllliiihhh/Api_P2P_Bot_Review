@@ -13,7 +13,13 @@ def register_text(text):
     if dbfunc.check_link(text.link_to_git):
         dbfunc.create_text(text.text, text.link_to_git, text.other_id)
         return "successfully registered"
+    else:
+        return "Not git link"
 
 
 def return_queue(id):
     return dbfunc.return_queue(id)
+
+
+def new_queue():
+    return dbfunc.new_queue()
